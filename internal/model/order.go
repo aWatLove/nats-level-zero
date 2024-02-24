@@ -3,12 +3,12 @@ package model
 import "time"
 
 type Order struct {
-	OrderUid          string    `json:"order_uid"`
+	OrderUid          string    `json:"order_uid" gorm:"primary_key; unique"`
 	TrackNumber       string    `json:"track_number"`
 	Entry             string    `json:"entry"`
-	Delivery          Delivery  `json:"delivery"`
-	Payment           Payment   `json:"payment"`
-	Items             []Item    `json:"items"`
+	Delivery          Delivery  `json:"delivery" gorm:"foreignKey:OrderRef"`
+	Payment           Payment   `json:"payment" gorm:"foreignKey:OrderRef"`
+	Items             []Item    `json:"items" gorm:"foreignKey:OrderRef"`
 	Locale            string    `json:"locale"`
 	InternalSignature string    `json:"internal_signature"`
 	CustomerId        string    `json:"customer_id"`
