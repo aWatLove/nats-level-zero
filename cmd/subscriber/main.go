@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"github.com/aWatLove/nats-lvl-zero/internal/delivery/http"
 	"github.com/aWatLove/nats-lvl-zero/internal/delivery/nats"
 	"github.com/aWatLove/nats-lvl-zero/internal/repository"
@@ -11,7 +12,9 @@ import (
 	"github.com/spf13/viper"
 	"log"
 	"os"
+	"os/signal"
 	"sync"
+	"syscall"
 )
 
 func main() {
@@ -72,12 +75,33 @@ func main() {
 	// init server
 	srv := new(http.Server)
 
-	if err = srv.Run(os.Getenv("APP_PORT"), handlers.InitRoutes()); err != nil {
-		log.Fatal(err)
+	go func() {
+		if err = srv.Run(os.Getenv("APP_PORT"), handlers.InitRoutes()); err != nil {
+			log.Fatal(err)
+		}
+	}()
+	log.Println("server started")
+
+	// graceful shutdown
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	<-quit
+
+	log.Println("server shutting down")
+	if err = srv.Shutdown(context.Background()); err != nil {
+		log.Printf("error occured on server shutting down: %s", err.Error())
 	}
 
-	// todo graceful shutdown
+	cdb, _ := db.DB()
+	if err = cdb.Close(); err != nil {
+		log.Printf("error while closing db connection: %s", err.Error())
+	}
 
+	if err = sc.Close(); err != nil {
+		log.Printf("error while closing nats streaming server connection: %s", err.Error())
+	}
+
+	wg.Wait()
 }
 
 func initConfig() error {
