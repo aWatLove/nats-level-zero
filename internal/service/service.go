@@ -6,9 +6,13 @@ import (
 )
 
 type Order interface {
-	Create(order model.Order) error
-	Get(uid string) (model.Order, error)
-	GetAll() ([]model.Order, error)
+	PutOrderDB(order model.Order) error
+	PutOrderCache(order model.Order)
+	GetFromDB(uid string) (model.Order, error)
+	GetFromCache(uid string) (model.Order, error)
+	GetAllFromDB() ([]model.Order, error)
+	GetAllFromCache() ([]model.Order, error)
+	PutOrdersDBtoCache() error
 }
 
 type Service struct {

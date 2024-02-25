@@ -2,13 +2,16 @@ package main
 
 import (
 	"github.com/aWatLove/nats-lvl-zero/internal/delivery/http"
+	"github.com/aWatLove/nats-lvl-zero/internal/delivery/nats"
 	"github.com/aWatLove/nats-lvl-zero/internal/repository"
 	"github.com/aWatLove/nats-lvl-zero/internal/repository/postgres"
 	"github.com/aWatLove/nats-lvl-zero/internal/service"
 	"github.com/joho/godotenv"
+	"github.com/nats-io/stan.go"
 	"github.com/spf13/viper"
 	"log"
 	"os"
+	"sync"
 )
 
 func main() {
@@ -35,11 +38,34 @@ func main() {
 
 	// todo fill cache from db
 
-	// todo init NATS
+	// init NATS streaming server
+	natsServer := nats.NewNats(services)
 
-	// todo connect NATS streaming server
+	// connect NATS streaming server
+	sc, err := natsServer.Connect(os.Getenv("NATS_CLUSTER_ID"), os.Getenv("NATS_CLIENT_ID"), os.Getenv("NATS_URL"))
+	if err != nil {
+		log.Fatalf("error while connecting to nats streaming service: %s", err.Error())
+		return
+	}
 
-	// todo subscribe
+	defer func(sc stan.Conn) {
+		err = sc.Close()
+		if err != nil {
+			log.Printf("error closing nats connection: %s", err.Error())
+		}
+	}(sc)
+
+	// subscribe to nats subject
+	var wg sync.WaitGroup
+	wg.Add(1)
+
+	go func(wg *sync.WaitGroup) {
+		err = natsServer.Subscribe(wg, sc, os.Getenv("NATS_SUBJECT"))
+		if err != nil {
+			return
+		}
+	}(&wg)
+	log.Printf("successfully subscribe to nats subject")
 
 	// init handlers
 	handlers := http.NewHandler(services)
@@ -49,6 +75,8 @@ func main() {
 	if err = srv.Run(os.Getenv("APP_PORT"), handlers.InitRoutes()); err != nil {
 		log.Fatal(err)
 	}
+
+	// todo graceful shutdown
 
 }
 

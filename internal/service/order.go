@@ -9,17 +9,36 @@ type OrderService struct {
 	repo repository.Order
 }
 
-func (o OrderService) Create(order model.Order) error {
+func (o OrderService) PutOrderDB(order model.Order) error {
+	return o.repo.Create(order)
+}
+
+func (o OrderService) PutOrderCache(order model.Order) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (o OrderService) Get(uid string) (model.Order, error) {
+func (o OrderService) GetFromDB(uid string) (model.Order, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (o OrderService) GetAll() ([]model.Order, error) {
+func (o OrderService) GetFromCache(uid string) (model.Order, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (o OrderService) GetAllFromDB() ([]model.Order, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (o OrderService) GetAllFromCache() ([]model.Order, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (o OrderService) PutOrdersDBtoCache() error {
 	//TODO implement me
 	panic("implement me")
 }

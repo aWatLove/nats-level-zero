@@ -3,6 +3,7 @@ package postgres
 import (
 	"github.com/aWatLove/nats-lvl-zero/internal/model"
 	"gorm.io/gorm"
+	"log"
 )
 
 type OrderPostgres struct {
@@ -10,8 +11,17 @@ type OrderPostgres struct {
 }
 
 func (o OrderPostgres) Create(order model.Order) error {
-	//TODO implement me
-	panic("implement me")
+	err := o.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&order).Error; err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+	return nil
 }
 
 func (o OrderPostgres) Get(uid string) (model.Order, error) {
