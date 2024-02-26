@@ -18,7 +18,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	api := router.Group("/api")
 	{
-		// todo определить handler's
 		api.GET("/order/:uid", h.getOrderByUid)
 		api.GET("/order/db/:uid", h.getOrderByUidFromDB)
 		api.GET("/order", h.getAllOrders)

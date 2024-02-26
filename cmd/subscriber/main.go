@@ -104,6 +104,7 @@ func main() {
 	wg.Wait()
 }
 
+// todo remove this
 func initConfig() error {
 	viper.AddConfigPath("config")
 	viper.SetConfigName("config")
