@@ -1,7 +1,7 @@
 package model
 
 type Item struct {
-	OrderRef    string `json:"-"`
+	OrderRefer  string `json:"-" gorm:"primaryKey"`
 	ChrtId      int    `json:"chrt_id"`
 	TrackNumber string `json:"track_number"`
 	Price       int    `json:"price"`

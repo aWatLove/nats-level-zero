@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"fmt"
 	"github.com/aWatLove/nats-lvl-zero/internal/model"
 	"gorm.io/gorm"
 	"log"
@@ -13,8 +14,10 @@ type OrderPostgres struct {
 func (o OrderPostgres) Create(order model.Order) error {
 	err := o.db.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Create(&order).Error; err != nil {
+			fmt.Println("order in tx", order)
 			return err
 		}
+
 		return nil
 	})
 	if err != nil {
