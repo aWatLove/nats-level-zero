@@ -19,8 +19,7 @@ func (o OrderService) PutOrderCache(order model.Order) {
 }
 
 func (o OrderService) GetFromDB(uid string) (model.Order, error) {
-	//TODO implement me
-	panic("implement me")
+	return o.repo.Get(uid)
 }
 
 func (o OrderService) GetFromCache(uid string) (model.Order, error) {
@@ -29,8 +28,7 @@ func (o OrderService) GetFromCache(uid string) (model.Order, error) {
 }
 
 func (o OrderService) GetAllFromDB() ([]model.Order, error) {
-	//TODO implement me
-	panic("implement me")
+	return o.repo.GetAll()
 }
 
 func (o OrderService) GetAllFromCache() ([]model.Order, error) {
