@@ -7,6 +7,9 @@ import (
 	"os"
 )
 
+// путь до тестового JSON
+var jsonPath = "static/model.json"
+
 func main() {
 	// connect to the nats streaming server
 	sc, err := stan.Connect(
@@ -25,7 +28,7 @@ func main() {
 	log.Print("successfully connected to the nats streaming server")
 
 	// parse static json file
-	dataJson, err := os.Open("static/model.json")
+	dataJson, err := os.Open(jsonPath)
 	if err != nil {
 		log.Fatalf("error while opening json file: %s", err.Error())
 	}
