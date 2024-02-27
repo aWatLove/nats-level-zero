@@ -27,9 +27,7 @@ func (h *Handler) getAllOrders(c *gin.Context) {
 func (h *Handler) getOrderByUid(c *gin.Context) {
 	uid := c.Param("uid")
 
-	// todo `get from cache`, вместо `get from DB`
-	// todo обработка ошибок с кешом
-	order, err := h.services.GetFromDB(uid)
+	order, err := h.services.GetFromCache(uid)
 	if err != nil {
 		log.Print(err)
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())

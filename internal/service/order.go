@@ -2,45 +2,33 @@ package service
 
 import (
 	"github.com/aWatLove/nats-lvl-zero/internal/model"
-	"github.com/aWatLove/nats-lvl-zero/internal/repository"
 )
 
-type OrderService struct {
-	repo repository.Order
+func (s *Service) PutOrderDB(order model.Order) error {
+	return s.Order.Create(order)
 }
 
-func (o OrderService) PutOrderDB(order model.Order) error {
-	return o.repo.Create(order)
+func (s *Service) PutOrderCache(order model.Order) {
+	s.OrderCache.PutOrder(order)
 }
 
-func (o OrderService) PutOrderCache(order model.Order) {
+func (s *Service) GetFromDB(uid string) (model.Order, error) {
+	return s.Order.Get(uid)
+}
+
+func (s *Service) GetFromCache(uid string) (model.Order, error) {
+	return s.OrderCache.Get(uid)
+}
+
+func (s *Service) GetAllFromDB() ([]model.Order, error) {
+	return s.Order.GetAll()
+}
+
+func (s *Service) GetAllFromCache() []model.Order {
+	return s.OrderCache.GetAll()
+}
+
+func (s *Service) PutOrdersDBtoCache() error {
 	//TODO implement me
 	panic("implement me")
-}
-
-func (o OrderService) GetFromDB(uid string) (model.Order, error) {
-	return o.repo.Get(uid)
-}
-
-func (o OrderService) GetFromCache(uid string) (model.Order, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (o OrderService) GetAllFromDB() ([]model.Order, error) {
-	return o.repo.GetAll()
-}
-
-func (o OrderService) GetAllFromCache() ([]model.Order, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (o OrderService) PutOrdersDBtoCache() error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func NewOrderService(repo repository.Order) *OrderService {
-	return &OrderService{repo: repo}
 }
