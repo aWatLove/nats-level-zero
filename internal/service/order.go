@@ -29,6 +29,15 @@ func (s *Service) GetAllFromCache() []model.Order {
 }
 
 func (s *Service) PutOrdersDBtoCache() error {
-	//TODO implement me
-	panic("implement me")
+	orders, err := s.GetAllFromDB()
+	if err != nil {
+		return err
+	}
+	if len(orders) == 0 {
+		return nil
+	}
+	for _, o := range orders {
+		s.PutOrderCache(o)
+	}
+	return nil
 }

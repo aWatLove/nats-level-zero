@@ -12,15 +12,7 @@ type getAllOrdersResponse struct {
 }
 
 func (h *Handler) getAllOrders(c *gin.Context) {
-	// todo `get from cache`, вместо `get from DB`
-	// todo обработка ошибок с кешом
-	orders, err := h.services.GetAllFromDB()
-	if err != nil {
-		log.Print(err)
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
-	}
-
+	orders := h.services.GetAllFromCache()
 	c.JSON(http.StatusOK, getAllOrdersResponse{Data: orders})
 }
 

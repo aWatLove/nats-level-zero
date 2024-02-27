@@ -39,7 +39,12 @@ func main() {
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 
-	// todo fill cache from db
+	// fill cache from db
+	err = services.PutOrdersDBtoCache()
+	if err != nil {
+		log.Fatalf("error while loading data to cache from DB: %s", err.Error())
+		return
+	}
 
 	// init NATS streaming server
 	natsServer := nats.NewNats(services)

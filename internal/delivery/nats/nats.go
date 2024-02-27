@@ -39,7 +39,7 @@ func (n Nats) Subscribe(wg *sync.WaitGroup, sc stan.Conn, natsSubject string) er
 		if err != nil {
 			return
 		}
-		// todo put to cache
+		n.service.PutOrderCache(order)
 
 		log.Printf("success adding order with uid: %s", order.OrderUid)
 	})
