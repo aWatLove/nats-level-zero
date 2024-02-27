@@ -36,7 +36,7 @@ func (o OrderPostgres) Get(uid string) (model.Order, error) {
 			Preload("Payment").
 			Preload("Items").
 			Where("order_uid = ?", uid).
-			Find(&order).Error; err != nil {
+			First(&order).Error; err != nil {
 			return err
 		}
 		return nil
