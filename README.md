@@ -4,3 +4,4 @@ TODO:
 - dockerfile
 - docker-compose
 - makefile
+- конфиги
