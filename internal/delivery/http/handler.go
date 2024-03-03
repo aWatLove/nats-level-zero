@@ -1,8 +1,11 @@
 package http
 
 import (
+	_ "github.com/aWatLove/nats-lvl-zero/docs"
 	"github.com/aWatLove/nats-lvl-zero/internal/service"
 	"github.com/gin-gonic/gin"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 )
 
 type Handler struct {
@@ -23,5 +26,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		api.GET("/order", h.getAllOrders)
 	}
 
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.Run(":8080")
 	return router
 }

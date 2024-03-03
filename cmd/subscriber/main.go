@@ -17,6 +17,13 @@ import (
 	"syscall"
 )
 
+// @title WB Tech: level #0
+// @version 1.0
+// @description Тестовое задание. Стек: Golang, Nats-streaming, PostgreSQL
+
+// @host localhost:8080
+// @BasePath /
+
 func main() {
 	if err := initConfig(); err != nil {
 		log.Fatalf("error initializing configs: %s", err.Error())

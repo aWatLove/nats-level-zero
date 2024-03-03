@@ -28,8 +28,7 @@ func (o *OrderCache) Get(uid string) (model.Order, error) {
 	if value, ok := o.cch.Data[uid]; ok {
 		return value, nil
 	}
-	return model.Order{}, NewErrorHandler(errors.New(fmt.Sprintf("can't find order with uid: %s", uid)),
-		http.StatusBadRequest)
+	return model.Order{}, NewErrorHandler(errors.New(fmt.Sprintf("can't find order with uid: %s", uid)), http.StatusBadRequest)
 }
 
 func (o *OrderCache) GetAll() []model.Order {
