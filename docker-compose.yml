@@ -1,5 +1,30 @@
 version: "3.8"
+
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - nats-streaming
+    env_file:
+      - .env
+    networks:
+      - mynetwork
+
+  db:
+    image: postgres:latest
+    restart: always
+    env_file:
+      - postgres.env
+    volumes:
+      - data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
   nats-streaming:
     command:
       - "--cluster_id"
@@ -12,6 +37,12 @@ services:
       - 8222:8222
     volumes:
       - ./volumes/nats_data_store:/repository:Z
+    networks:
+      - mynetwork
 
 volumes:
   data:
+
+networks:
+  mynetwork:
+    driver: bridge
