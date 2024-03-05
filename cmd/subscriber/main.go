@@ -9,7 +9,6 @@ import (
 	"github.com/aWatLove/nats-lvl-zero/internal/service"
 	"github.com/joho/godotenv"
 	"github.com/nats-io/stan.go"
-	"github.com/spf13/viper"
 	"log"
 	"os"
 	"os/signal"
@@ -20,14 +19,12 @@ import (
 // @title WB Tech: level #0
 // @version 1.0
 // @description Тестовое задание. Стек: Golang, Nats-streaming, PostgreSQL
+// @contact.name Suvorov Vladislav
 
 // @host localhost:8080
 // @BasePath /
 
 func main() {
-	if err := initConfig(); err != nil {
-		log.Fatalf("error initializing configs: %s", err.Error())
-	}
 	if err := godotenv.Load(); err != nil {
 		log.Fatalf("error initializing .env variables^ %s", err.Error())
 	}
@@ -114,11 +111,4 @@ func main() {
 	}
 
 	wg.Wait()
-}
-
-// todo remove this
-func initConfig() error {
-	viper.AddConfigPath("config")
-	viper.SetConfigName("config")
-	return viper.ReadInConfig()
 }
