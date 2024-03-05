@@ -21,11 +21,6 @@
 6. Docker
 7. Swagger
 
-### HTTP-методы
-- Get order by uid
-- Get all orders
-- Get order by uid from DB
-
 ## Примеры запросов
 ### GET order by uid
 `http://localhost:8080/api/order/:uid`
@@ -91,7 +86,7 @@ Output:
 
 Output: такой же как и в методе `GET order by uid`
 
-### GET order by uid
+### GET all orders
 `http://localhost:8080/api/order`
 
 Output: 
