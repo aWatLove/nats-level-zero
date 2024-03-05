@@ -3,7 +3,9 @@
     "info": {
         "description": "Тестовое задание. Стек: Golang, Nats-streaming, PostgreSQL",
         "title": "WB Tech: level #0",
-        "contact": {},
+        "contact": {
+            "name": "Suvorov Vladislav"
+        },
         "version": "1.0"
     },
     "host": "localhost:8080",

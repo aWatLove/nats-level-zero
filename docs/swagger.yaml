@@ -106,7 +106,8 @@ definitions:
     type: object
 host: localhost:8080
 info:
-  contact: {}
+  contact:
+    name: Suvorov Vladislav
   description: 'Тестовое задание. Стек: Golang, Nats-streaming, PostgreSQL'
   title: 'WB Tech: level #0'
   version: "1.0"
