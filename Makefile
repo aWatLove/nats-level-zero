@@ -7,5 +7,5 @@ start:
 test:
 	go test -v ./...
 
-#publish:
-#	go run ./cmd/publisher/main.go
+pub:
+	go run github.com/aWatLove/nats-lvl-zero/cmd/publisher
